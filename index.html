@@ -46,6 +46,11 @@
             cursor: pointer;
             margin: 0 10px;
         }
+        #gameCanvas {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #0077b6;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script>
@@ -76,9 +81,128 @@
             document.getElementById('experienceText').innerText = translations[lang].experience;
             document.getElementById('contactTitle').innerText = translations[lang].contact;
         }
+
+        // Snake Game Logic
+        let canvas, ctx;
+        let snake, apple;
+        let gridSize = 20;
+        let tileCount = 20;
+
+        function init() {
+            canvas = document.getElementById('gameCanvas');
+            ctx = canvas.getContext('2d');
+            canvas.width = canvas.height = gridSize * tileCount;
+
+            snake = {
+                x: 10,
+                y: 10,
+                dx: 0,
+                dy: 0,
+                cells: [],
+                maxCells: 4
+            };
+
+            apple = {
+                x: Math.floor(Math.random() * tileCount),
+                y: Math.floor(Math.random() * tileCount)
+            };
+
+            // Handle keyboard input
+            document.addEventListener('keydown', keydown);
+            
+            // Start the game loop
+            requestAnimationFrame(loop);
+        }
+
+        function keydown(e) {
+            // Prevent snake from reversing
+            if (e.keyCode === 37 && snake.dx === 0) { // left arrow
+                snake.dx = -1;
+                snake.dy = 0;
+            } else if (e.keyCode === 38 && snake.dy === 0) { // up arrow
+                snake.dy = -1;
+                snake.dx = 0;
+            } else if (e.keyCode === 39 && snake.dx === 0) { // right arrow
+                snake.dx = 1;
+                snake.dy = 0;
+            } else if (e.keyCode === 40 && snake.dy === 0) { // down arrow
+                snake.dy = 1;
+                snake.dx = 0;
+            }
+        }
+
+        function loop() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Move the snake
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+
+            // Wrap snake around canvas edges
+            if (snake.x < 0) {
+                snake.x = tileCount - 1;
+            }
+            if (snake.y < 0) {
+                snake.y = tileCount - 1;
+            }
+            if (snake.x >= tileCount) {
+                snake.x = 0;
+            }
+            if (snake.y >= tileCount) {
+                snake.y = 0;
+            }
+
+            // Keep track of snake's body
+            snake.cells.unshift({ x: snake.x, y: snake.y });
+
+            // Trim the snake's cells when it's too long
+            if (snake.cells.length > snake.maxCells) {
+                snake.cells.pop();
+            }
+
+            // Draw apple
+            ctx.fillStyle = 'red';
+            ctx.fillRect(apple.x * gridSize, apple.y * gridSize, gridSize, gridSize);
+
+            // Draw snake
+            ctx.fillStyle = 'green';
+            snake.cells.forEach(function(cell, index) {
+                ctx.fillRect(cell.x * gridSize, cell.y * gridSize, gridSize, gridSize);
+
+                // Snake eats the apple
+                if (cell.x === apple.x && cell.y === apple.y) {
+                    snake.maxCells++;
+                    apple.x = Math.floor(Math.random() * tileCount);
+                    apple.y = Math.floor(Math.random() * tileCount);
+                }
+
+                // Check collision with itself
+                for (let i = index + 1; i < snake.cells.length; i++) {
+                    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                        snake.x = 10;
+                        snake.y = 10;
+                        snake.cells = [];
+                        snake.maxCells = 4;
+                        snake.dx = 0;
+                        snake.dy = 0;
+                        apple.x = Math.floor(Math.random() * tileCount);
+                        apple.y = Math.floor(Math.random() * tileCount);
+                    }
+                }
+            });
+
+            // Call the loop function again
+            requestAnimationFrame(loop);
+        }
+
+        window.onload = function() {
+            setLanguage('en');
+            init();
+        };
     </script>
 </head>
-<body onload="setLanguage('en')">
+<body>
     <header>
         <h1>Welcome to Tom's Website</h1>
         <div class="flags">
@@ -100,11 +224,21 @@
             <h2 class="section-title">Experience</h2>
             <p id="experienceText"></p>
         </div>
+        <div class="contact
         <div class="contact">
             <h2 class="section-title" id="contactTitle">Contact</h2>
-            <p>Visit me on LinkedIn under <a href="https://www.linkedin.com/in/haukekrenz/">https://www.linkedin.com/in/haukekrenz/</a></p>
-            <img src="https://media.licdn.com/dms/image/D4D03AQGxpd30yl0Bmw/profile-displayphoto-shrink_200_200/0/1713296893556?e=1723680000&v=beta&t=JFbpsqSqu6gkY_Go7EpiFoaINmCl_2MNqcVv2JxyqRY" alt="LinkedIn Profile Picture" style="display: block; margin: 20px auto; border-radius: 50%;">
+            <p>Visit me on LinkedIn under <a href="https://www.linkedin.com/in/pete/">https://www.linkedin.com/in/pete/</a></p>
+            <canvas id="gameCanvas"></canvas>
+            <p style="text-align: center; margin-top: 10px;">This snake game was my first joyful contact with technology in the late 90s.</p>
         </div>
     </div>
+
+    <script>
+        const translations = {
+            // Your existing translations object...
+        };
+
+        // Snake Game Logic...
+    </script>
 </body>
 </html>
