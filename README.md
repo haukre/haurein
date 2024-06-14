@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tom's Personal Webpage</title>
+    <title>Tom's Content</title>
     <style>
         body {
             font-family: 'Lato', sans-serif;
