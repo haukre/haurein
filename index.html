@@ -83,7 +83,7 @@
         let snake, apple;
         let gridSize = 20;
         let tileCount = 20;
-        let gameSpeed = 300; // Milliseconds between updates (adjust as needed)
+        let gameSpeed = 225; // Milliseconds between updates (adjust as needed)
 
         function setLanguage(lang) {
             document.getElementById('aboutMeText').innerText = translations[lang].aboutMe;
@@ -98,8 +98,8 @@
             canvas.width = canvas.height = gridSize * tileCount;
 
             snake = {
-                x: 10,
-                y: 10,
+                x: 5,
+                y: 5,
                 dx: 0,
                 dy: 0,
                 cells: [],
