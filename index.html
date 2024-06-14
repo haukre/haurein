@@ -79,7 +79,7 @@
         let snake, apple;
         let gridSize = 20;
         let tileCount = 20;
-        let gameSpeed = 150; // Milliseconds between updates (adjust as needed)
+        let gameSpeed = 300; // Milliseconds between updates (adjust as needed)
 
         function setLanguage(lang) {
             document.getElementById('aboutMeText').innerText = translations[lang].aboutMe;
@@ -197,8 +197,24 @@
 
             // Draw snake
             ctx.fillStyle = 'green';
-            snake.cells.forEach(function(cell) {
-                ctx.fillRect(cell.x * gridSize, cell.y * gridSize, gridSize, gridSize);
+            snake.cells.forEach(function(cell, index) {
+                // Draw snake's head with a friendly face
+                if (index === 0) {
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 2, cell.y * gridSize + gridSize / 2, gridSize / 2, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'green';
+                    ctx.fill();
+                    ctx.fillStyle = 'black';
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 3, cell.y * gridSize + gridSize / 3, gridSize / 6, 0, 2 * Math.PI);
+                    ctx.arc(cell.x * gridSize + 2 * gridSize / 3, cell.y * gridSize + gridSize / 3, gridSize / 6, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 2, cell.y * gridSize + 2 * gridSize / 3, gridSize / 6, 0, Math.PI, true);
+                    ctx.stroke();
+                } else {
+                    ctx.fillRect(cell.x * gridSize, cell.y * gridSize, gridSize, gridSize);
+                }
             });
         }
 
@@ -212,33 +228,62 @@
     <header>
         <h1>Welcome to Tom's Website</h1>
         <div class="flags">
-            <img src="https://flagcdn.com/w20/de.png" alt="German" class="flag" onclick="setLanguage('de')">
-            <img src="https://flagcdn.com/w20/ch.png" alt="French" class="flag" onclick="setLanguage('fr')">
-            <img src="https://flagcdn.com/w20/gb.png" alt="English" class="flag" onclick="setLanguage('en')">
-        </div>
-    </header>
-    <div class="container">
-        <div class="about-me">
-            <h2 class="section-title">About Me</h2>
-            <p id="aboutMeText"></p>
-        </div>
-        <div class="services">
-            <h2 class="section-title">Services</h2>
-            <p id="servicesText"></p>
-        </div>
-        <div class="experience">
-            <h2 class="section-title">Experience</h2>
-            <p id="experienceText"></p>
-        </div>
-        <div class="contact">
-            <h2 class="section-title" id="contactTitle">Contact</h2>
-            <p>Visit
-            <p>Visit me on LinkedIn under <a href="https://www.linkedin.com/in/pete/">https://www.linkedin.com/in/pete/</a></p>
-            <canvas id="gameCanvas"></canvas>
-            <p style="text-align: center; margin-top: 10px;">This snake game was my first joyful contact with technology in the late 90s.</p>
-        </div>
-    </div>
-
+            <
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tom's Personal Webpage</title>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #e0f7fa;
+            color: #0077b6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0077b6;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 24px;
+            margin-top: 20px;
+            border-bottom: 2px solid #0077b6;
+            padding-bottom: 5px;
+        }
+        .about-me, .services, .experience, .contact {
+            margin-top: 20px;
+        }
+        .contact a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .flags {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .flag {
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        #gameCanvas {
+            display: block;
+            margin: 20px auto;
+            border: 1px solid #0077b6;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script>
         const translations = {
             en: {
@@ -383,8 +428,25 @@
 
             // Draw snake
             ctx.fillStyle = 'green';
-            snake.cells.forEach(function(cell) {
-                ctx.fillRect(cell.x * gridSize, cell.y * gridSize, gridSize, gridSize);
+            snake.cells.forEach(function(cell, index) {
+                // Draw snake's head with a friendly face
+                if (index === 0) {
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 2, cell.y * gridSize + gridSize / 2, gridSize / 2, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'green';
+                    ctx.fill();
+                    ctx.strokeStyle = 'black';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 3, cell.y * gridSize + gridSize / 3, gridSize / 6, 0, 2 * Math.PI);
+                    ctx.arc(cell.x * gridSize + 2 * gridSize / 3, cell.y * gridSize + gridSize / 3, gridSize / 6, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(cell.x * gridSize + gridSize / 2, cell.y * gridSize + 2 * gridSize / 3, gridSize / 6, 0, Math.PI, true);
+                    ctx.stroke();
+                } else {
+                    ctx.fillRect(cell.x * gridSize, cell.y * gridSize, gridSize, gridSize);
+                }
             });
         }
 
@@ -392,6 +454,42 @@
             setLanguage('en');
             init();
         };
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Tom's Website</h1>
+        <
+        <div class="flags">
+            <img class="flag" src="flag-en.png" alt="English" onclick="setLanguage('en')">
+            <img class="flag" src="flag-de.png" alt="Deutsch" onclick="setLanguage('de')">
+            <img class="flag" src="flag-fr.png" alt="Français" onclick="setLanguage('fr')">
+        </div>
+    </header>
+    <div class="container">
+        <section class="about-me">
+            <h2 class="section-title">About Me</h2>
+            <p id="aboutMeText"></p>
+        </section>
+        <section class="services">
+            <h2 class="section-title">Services</h2>
+            <p id="servicesText"></p>
+        </section>
+        <section class="experience">
+            <h2 class="section-title">Experience</h2>
+            <p id="experienceText"></p>
+        </section>
+        <section class="contact">
+            <h2 id="contactTitle" class="section-title">Contact</h2>
+            <a href="mailto:tom@example.com">tom@example.com</a>
+        </section>
+        <canvas id="gameCanvas"></canvas>
+    </div>
+    <footer>
+        <p>In the late 90s, I had my first joyful contact with technology. It was a defining moment that shaped my career path and passion for innovation.</p>
+    </footer>
+    <script>
+        // JavaScript code for the snake game and language switching is above this section
     </script>
 </body>
 </html>
